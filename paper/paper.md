@@ -1,54 +1,126 @@
 ---
-title: 'BioHackJP 2023 Report R1: linked data standardization with LLMs'
-title_short: 'BioHackJP 2023 LD-LLM'
+title: 'BioHackJP 2023 Report R1: RDF Data integration using Shape Expressions'
+title_short: 'BioHackJP 2023 Data Integration ShEx'
 tags:
   - Linked Data
-  - Large Language Models
+  - Shape Expressions
+  - RDF
+  - Data integration
+  - SPARQL
 authors:
-  - name: First Author
-    orcid: 0000-0000-0000-0000
+  - name: Jose Emilio Labra Gayo
+    orcid: 0000-0001-8907-5348
     affiliation: 1
-  - name: Last Author
-    orcid: 0000-0000-0000-0000
+  - name: Andra Waagmeester
+    orcid: 0000-0001-9773-4008
     affiliation: 2
+  - name: Yasunori Yamamoto
+    orcid: 0000-0002-6943-6887
+    affiliation: 3
+  - name: Ángel Iglesias Préstamo
+    orcid: 0009-0004-0686-4341
+    affiliation: 1
+  - name: Toshiaki Katayama
+    orcid: 0000-0003-2391-0384
+    affiliation: 3
+  - name: Thomas Liener
+    orcid: 0000-0003-3257-9937
+    affiliation: 4
+  - name: Deepak Unni
+    orcid: 0000-0002-3583-7340
+    affiliation: 5
+  - name: Jerven Bolleman
+    orcid: 0000-0002-7449-1266
+    affiliation: 6
+  - name: Kiyoko F. Aoki-Kinoshita
+    orcid: 0000-0002-6662-8015
+    affiliation: 7
+  - name: Masashi Yokochi
+    orcid: 0000-0002-3253-7449
+    affiliation: 8
+  - name: Núria Queralt Rosinach
+    orcid: 0000-0003-0169-8159
+    affiliation: 9
+  - name: Hiroshi Mori
+    orcid: 0000-0003-0806-7704
+    affiliation: 12
+  - name: Daniel Fernández Álvarez
+    orcid: 0000-0002-8666-7660
+    affiliation: 1
+  - name: Alberto Labarga
+    orcid: 0000-0001-6781-893X
+    affiliation: 11
+  - name: Nishad Thalhath
+    orcid: 0000-0001-9845-9714
+    affiliation: 12
+  - name: Robert Hoehndorf
+    orcid: 0000-0001-8149-5890
+    affiliation: 13
+  - name: Eric Prud’hommeaux
+    orcid: 0000-0003-1775-9921
+    affiliation: 14
+  - name: Claude Nanjo
+    orcid: 0000-0000-0000-0000
+    affiliation: 15
+  - name: Yoko Okabeppu
+    orcid: 0000-0000-0000-0000
+    affiliation: 16
 affiliations:
-  - name: First Affiliation
+  - name: WESO Lab, University of Oviedo, Spain
     index: 1
-  - name: Second Affiliation
-    index: 2
+  - name: Micelio, Belgium
+    index: 2  
+  - name: Database Center for Life Science, Japan
+    index: 3
+  - name: Unaffiliated 
+    index: 4
+  - name: Swiss Institute of Bioinformatics, Basel, Switzerland
+    index: 5  
+  - name: SIB Swiss Institute of Bioinformatics, Switzerland
+    index: 6
+  - name: Soka University, Hachioji, Tokyo, Japan
+    index: 7
+  - name: Osaka University, Suita, Osaka, Japan
+    index: 8
+  - name: Leiden University Medical Center, Netherlands
+    index: 9
+  - name: National Institute of Genetics, Mishima, Japan 
+    index: 10  
+  - name: Barcelona Supercomputing Center
+    index: 11
+  - name: RIKEN Center for Integrative Medical Sciences, Yokohama, JP
+    index: 12
+  - name: Janeiro Digital, USA
+    index: 13
+  - name: MedOntology, LLC, USA
+    index: 14
+  - name: OKBP inc. Japan
+    index: 15
 date: 30 June 2023
 cito-bibliography: paper.bib
 event: BH23JP
 biohackathon_name: "BioHackathon Japan 2023"
 biohackathon_url:   "https://2023.biohackathon.org/"
 biohackathon_location: "Kagawa, Japan, 2023"
-group: R1
+group: R4
 # URL to project git repo --- should contain the actual paper.md:
-git_url: https://github.com/biohackathon-jp/bh23-report-template
+git_url: https://github.com/biohackathon-japan/bh23-dataintegrationshex
 # This is the short authors description that is used at the
 # bottom of the generated paper (typically the first two authors):
-authors_short: First Author \emph{et al.}
+authors_short: Jose E. Labra \emph{et al.}
 ---
 
 # Background
 
-The field of bioinformatics plays a crucial role in enabling researchers to extract meaningful insights from the vast amount of biological data generated today. With advancements in technology and the availability of large-scale datasets, it has become increasingly important to develop standardized approaches for representing and integrating biological information. Linked data, a method for publishing structured data on the web, has emerged as a promising solution for facilitating the integration and interoperability of diverse biological data sources.
+In this report, we describe the activities that we have been carrying on during the Biohackathon 2023, held in Shodoshima, Japan. The main goal of the project has been to identify approaches and issues that can be used to integrate large RDF datasets creating  subsets described by Shape Expressions.
 
-The BioHackathon 2023, held in Japan, provided an ideal platform for researchers and bioinformatics enthusiasts to collaborate and explore innovative solutions to address the challenges in the field. Our project focused on the application of Linked Data and Large Language Models (LLMs) to standardize biological data and enhance its accessibility and usability.
-
-LLMs, such as OpenAI's GPT-3.5 architecture, have demonstrated remarkable capabilities in understanding and generating human-like text. Leveraging the power of LLMs, we aimed to automate the process of extracting relevant biological terms from unstructured text and mapping them to existing ontology terms. Ontologies, which are hierarchical vocabularies of terms and their semantic relationships, provide a standardized framework for organizing and categorizing biological concepts.
 
 # Outcomes
 
-To achieve our objectives, we conducted a comprehensive survey of open source language models available and evaluated their suitability for our task. We explored different models, taking into consideration factors such as performance, computational requirements, and ease of deployment. Subsequently, we sought to run the selected models on a local computer, ensuring that the infrastructure requirements were met.
-
-Having established a working environment for LLMs, we developed a set of pipelines that incorporated various natural language processing techniques to extract relevant biological terms from textual data. These terms were then matched and mapped to the corresponding ontology terms, thereby providing a standardized representation of the extracted information. By utilizing Linked Data principles, we aimed to create an interconnected network of biological knowledge that would facilitate data integration and enable advanced analysis.
-
-![Caption for BioHackrXiv logo figure](./biohackrxiv.png)
 
 # Future work
 
-Moving forward, there are several areas of potential future work to enhance our project's linked data standardization with LLMs. First, exploring advanced LLMs and optimizing computational efficiency can improve performance. Additionally, expanding ontology mapping to cover more domains and integrating external data sources would increase the scope of our standardization efforts. Validating and evaluating results against gold-standard datasets, involving domain experts, and developing a user-friendly interface for researchers to interact with the pipelines are crucial next steps. These future endeavors will refine and advance our methodology, increasing its impact and adoption in bioinformatics.
+
 
 ## Acknowledgements
 
