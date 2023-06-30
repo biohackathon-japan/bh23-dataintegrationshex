@@ -5,7 +5,7 @@ tags:
   - Linked Data
   - Shape Expressions
   - RDF
-  - Data integration
+  - Data Integration
   - SPARQL
 authors:
   - name: Jose Emilio Labra Gayo
@@ -26,9 +26,9 @@ authors:
   - name: Thomas Liener
     orcid: 0000-0003-3257-9937
     affiliation: 4
-  - name: Deepak Unni
+  - name: Deepak R. Unni
     orcid: 0000-0002-3583-7340
-    affiliation: 5
+    affiliation: 6
   - name: Jerven Bolleman
     orcid: 0000-0002-7449-1266
     affiliation: 6
@@ -50,9 +50,6 @@ authors:
   - name: Alberto Labarga
     orcid: 0000-0001-6781-893X
     affiliation: 11
-  - name: Nishad Thalhath
-    orcid: 0000-0001-9845-9714
-    affiliation: 12
   - name: Robert Hoehndorf
     orcid: 0000-0001-8149-5890
     affiliation: 13
@@ -62,6 +59,9 @@ authors:
   - name: Claude Nanjo
     orcid: 0009-0002-1208-8858
     affiliation: 15
+  - name: Nishad Thalhath
+    orcid: 0000-0001-9845-9714
+    affiliation: 12
   - name: Yoko Okabeppu
     orcid: 0000-0000-0000-0000
     affiliation: 16
@@ -74,8 +74,6 @@ affiliations:
     index: 3
   - name: Unaffiliated 
     index: 4
-  - name: Swiss Institute of Bioinformatics, Basel, Switzerland
-    index: 5  
   - name: SIB Swiss Institute of Bioinformatics, Switzerland
     index: 6
   - name: Soka University, Hachioji, Tokyo, Japan
@@ -115,11 +113,36 @@ authors_short: Jose E. Labra \emph{et al.}
 [![hackmd-github-sync-badge](https://hackmd.io/jdpyyAXkSEK1RgT5QEx45g/badge)](https://hackmd.io/jdpyyAXkSEK1RgT5QEx45g)
 <!-- TODO: Review by Toshiaki -->
 
-In this report, we describe the activities that we have been carrying on during the Biohackathon 2023, held in Shodoshima, Japan. The main goal of the project has been to identify approaches and issues that can be used to integrate large RDF datasets creating  subsets described by Shape Expressions.
+In this report, we describe the activities that we have been carrying on during the Biohackathon 2023, held in Shodoshima, Japan. The main goal of the project has been to identify approaches and issues that can be used to integrate large RDF datasets by creating subsets described by [Shape Expressions](http://shex.io/).
 
+We have recently submitted a publication on creating [subsets from Wikidata](https://www.semantic-web-journal.net/content/wikidata-subsetting-approaches-tools-and-evaluation-0). Wikidata is a knowledge graph which is constantly in flux and getting to a size which makes it hard to locally replicate. By creating topical subsets we are able to dissect a managable subset that can be loaded in local RDF stores for further processing. 
+
+However, this subsetting app approach relies on Wikidata daily dumps, which are available in JSON format. For this hackathon 
+we specifically choose to extend the subsetting mechanisms to work on RDF dumps or SPARQL endpoints.
+
+RDF data provides a solution for data interoperability which in principle can enable different data sources to be smoothly integrated. Nevertheless, in practice, the growing adoption of RDF has also made that the consumption of RDF data is challenging given the size of RDF data collections makes them not feasible to be easily collected or manipulated. 
+As an example, UniProt RDF data size is around 110 billions of triples or over 700 gigabytes of gzipped RDF/XML, and PubChem RDF is in the same order of magnitude in volume, both these resources describe 100's of different kinds of data. This situation requires some agents to provide intermediate resources to manipulate the RDF data which is consumed, and described. As an example, DBCLS has created the rdfconfig tool which provides descriptions of the RDF data collections they contain. 
+
+In order to facilitate the integration of those RDF data, this project has been exploring ways to create subsets of RDF data which could contain only the information of interest for some specific tasks. Making those subsets available for researchers in an easy way, could facilitate the research activities and give the RDF data more value. 
+
+Creating subsets of RDF data can also help when the information available in those large RDF data sources is continually evolving. So if a researcher wants to make reproducible research based on those SPARQL endpoints, it may be possible that the results of the queries can differ along the time. 
+
+The possibility of having a tool that creates subsets can be considered as a way to create snapshots of the RDF data which could later be packaged and distributed along the research results, helping the creation of reproducible research based on RDF data.
+
+Another reason for the creation of RDF subsets is to make a subset from multiple data sources where it is unfeasible to get a designated dataset using federated queries due to these data sizes and technical immaturity of SPARQL federated query handling.
+
+The Shape Expressions language was designed as a concise and human-readable language to describe and validate RDF data. Although it was not initially designed to create subsets, the possibility of having a concise way to describe RDF makes it an ideal candidate for this task. 
+
+Indeed, ShEx has already been used to create subsets of Wikidata. The following paper contains a list of different subseting approaches which have been used in Wikidata: https://www.semantic-web-journal.net/content/wikidata-subsetting-approaches-tools-and-evaluation-0. 
+
+The main goals of this project have been to review the different approaches to create subsets of large RDF data in order to facilitate the integration of different RDF collections. 
+
+We identified the participation of 3 main agents:
+- Data producers or providers who are interested in produce RDF data that can have more value and be used by third parties.
+- Data consumers who are interested in an easy way to get access to the RDF data available in those sources and to create reproducible workflows which can contain manageable RDF subsets.
+- Data integrators who can help in the intermediate process of bringing over the RDF data produced by the providers to the end consumers. One important aspect to take into account is that the RDF data may need to be transformed with actions like changing URI prefix declarations or manipulating the topology of the RDF data. Another aspect is the need to understand the structure of the RDF data collected and to agree in a common structure. For this, Shape expressions also offer the possibility to validate the RDF data that is produced and the RDF data that may be consumed. Avoiding the need of defensive programming techniques. 
 
 # Outcomes
-
 
 ## Creation of ShEx based subsets
 
@@ -128,15 +151,6 @@ One important aspect of data integration is the possibility of creating small su
 We created a github repository called [subsetting-examples](https://github.com/shex-consolidator/subsetting-examples) that contains some example SPARQL queries, ShEx schemas and scripts used during the biohackathon. 
 
 The use cases that we explored are the following:
-
-> Comments (yayamamo): we might need to explain the reason why subsetting is needed.
-> Maybe, one is to make a snapshot for a research which needs reproducibility of data used to get an outcome.
-> Another reason would be to make a subset from multiple data sources where it is unfeasible to get a designate dataset using federated queris due to these data sizes and technical immaturity of SPARQL federated query handling.
-
-> In addition, we need to explain why ShEx based subsetting, why not SPARQL for example.
-> ShEx is very useful for validating RDF data and declaring RDF data schema explicitly.
-> However, to get a subset of an RDF dataset we can use SPARQL, too, and there have been lots of usecases as declaring SPARQL queries.
-> (cf. https://www.semantic-web-journal.net/content/wikidata-subsetting-approaches-tools-and-evaluation-0)
 
 
 ### UniProt subset based on proteins
@@ -257,7 +271,7 @@ Kiyoko selected a query from Reactome.
 Andra Waagmeester created an executable book explaining some approaches to create subsets. 
 
 <!-- TODO: Review by Nuria Queralt --> 
-The book was automatically published using Github actions created by Nuria Queralt. 
+The book was automatically published using Github actions created by Núria Queralt Rosinach. 
 
 
 ## Work on sheXer 
@@ -285,15 +299,16 @@ Possible tools to use: [ShExML](http://shexml.herminiogarcia.com/).
 <!-- TODO: Review by Deepak Unni -->
 <!-- TODO: Review by Toshiaki -->
 
-In order to obtain RDF data subsets it is necessary to describe the desired contents of the RDF data. Apart of ShEx, we were analysing other possibilities like [LinkML](https://linkml.io/) or [RDF-config tool](https://github.com/dbcls/rdf-config). 
+As with any data source, it is necessary to describe its structure. And if we want to obtain subsets of RDF data then the RDF data has to be described in sufficient detail that can 
+In order to obtain RDF data subsets it is necessary to describe the desired contents of the RDF data. Apart from ShEx, we were analysing other possibilities like [LinkML](https://linkml.io/) and [RDF-config tool](https://github.com/dbcls/rdf-config). 
 
-Both LinkML and RDFConfig are able to generate ShEx files, so we started to compare the output of both using PubChem as an example.
+Both LinkML and RDF-config describe RDF models in YAML and are able to generate ShEx shapes, so we started to compare the output of both using PubChem as an example.
 
-Deepak provided an example [linkml based ShEx file](https://github.com/shex-consolidator/subsetting-examples/blob/master/linkml_rdfconfig/pubchemrdf_by_linkml.shex) generated from LinkML based on PubChem.  
+Deepak provided an example [LinkML-based ShEx file](https://github.com/shex-consolidator/subsetting-examples/blob/master/linkml_rdfconfig/pubchemrdf_by_linkml.shex) generated from a LinkML schema that describes PubChem.
 
-Toshiaki provided an example [rdfconfig based ShEx file](https://github.com/shex-consolidator/subsetting-examples/blob/master/linkml_rdfconfig/pubchem_by_rdfconfig.shex) generated by rdfconfig. 
+Toshiaki provided an example [RDF-config based ShEx file](https://github.com/shex-consolidator/subsetting-examples/blob/master/linkml_rdfconfig/pubchem_by_rdfconfig.shex) generated by RDF-config. 
 
-We were analysing the shapes and it seems that the ones generated by rdfconfig look simpler and more clean although the ones generated by linkml seem to contain more properties. As an example, this is the shape of taxonomy  generated by LinkML:
+We were analysing the shapes and it seems that the ones generated by RDF-config look simpler and more clean although the ones generated by LinkML seem to contain more properties. As an example, this is the shape of the `taxonomy` class as generated by LinkML:
 
 ```shex=
 <Taxonomy> CLOSED {
@@ -308,7 +323,8 @@ We were analysing the shapes and it seems that the ones generated by rdfconfig l
 }
 ```
 
-and this is the shape generated from rdfconfig. 
+
+and this is the shape generated from RDF-config:
 
 ```shex=
 <PubChemTaxonomyShape> {
@@ -318,7 +334,19 @@ and this is the shape generated from rdfconfig.
 }
 ```
 
-One aspect of the shapes generated by linkml is that the constraint on `rdf:type` property needs to be improved to capture the enumeration of possible values. It seems that the linkml ShEx generator doesn't convert enums so Deepak [raised a issue](https://github.com/linkml/linkml/issues/1513) about this. 
+<!-- TODO: Review by Jose -- this is from updated version of RDF-config -->
+```shex=
+<PubChemTaxonomyShape> {
+  rdf:type [sio:SIO_010000] ;
+  skos:prefLabel xsd:string  ;
+  skos:altLabel xsd:string * ;
+  skos:closeMatch IRI * ;
+  cito:isDiscussedBy IRI * ;
+  owl:sameAs IRI 
+}
+```
+
+One aspect of the shapes generated by LinkML is that the constraint on `rdf:type` property needs to be improved to capture the enumeration of possible values. It seems that the LinkML ShEx generator doesn't convert enums so Deepak [raised a issue](https://github.com/linkml/linkml/issues/1513) about this. A fix for the issue is already in place and will be incorporated into LinkML soon.
 
 
 # Future work
@@ -343,7 +371,13 @@ During the biohackathon we were reviewing the way that different data providers 
 In order to add `.well-known/void` declarations, Jerven Bolleman already had the [void-generator](https://github.com/JervenBolleman/void-generator). [VoID](https://www.w3.org/TR/void/) is a framework to describe the statistical distribution of data elements and their links. During the biohackathon, Jerven Bolleman and Jose Labra started a new project called [void2shapes](https://github.com/shex-consolidator/void2shapes) to generate ShEx and SHACL declarations from [void descriptions](https://www.w3.org/TR/void/) in UniProt. We succeeded in generating a minimal ShACL representation from the VoID files of [UniProt](https://sparql.uniprot.org/sparql) and [SwissLipids](https://beta.sparql.swisslipids.org/sparql).
 
 
-## Improvements to ShExer
+## Improve the ShEx tooling
+<!-- TODO: Review by Nishad -->
+
+We are currently transitioning some of the ShEx implementations that were initially implemented in Scala to Rust. 
+We have been looking to some tools in the Rust ecosystem like the [Severless SPARQL endpoint](https://github.com/nishad/serverless-sparql-endpoint) that has been developed by Nishad in Javascript for Deno based on the [Oxigraph database](https://oxigraph.org/) that is implemented in Rust that has a binding that works in [WebAssembly](https://webassembly.org/). We consider that this solution could enable further performance and dynamic scalability and enable edge-computing use cases. One possible use case would be to adapt the next Rust implementation of ShEx to work on WebAssembly and could be integrated with OxiGraph and do ShEx validation on-the-fly.
+
+## Improvements to sheXer
 <!-- TODO: Review by: Yasunori -->
 
 - Automatic splitting of large RDF data files
@@ -377,15 +411,21 @@ In order to add `.well-known/void` declarations, Jerven Bolleman already had the
  
 ## Conversion from ShEx to LinkML
 <!-- TODO: Review by Deepak Unni --> 
-We were discussing the possibility of converting ShEx to LinkML which would allow to roundtrip between both data formats and this is something that Jose Labra and Deepak would like to work in the future. Another aspect for future work is the resolution of [the issue](https://github.com/linkml/linkml/issues/1513) raised by Deepak. 
+We were discussing the possibility of converting ShEx to LinkML which would allow to roundtrip between both data formats and this is something that Jose Labra and Deepak would like to work in the future. 
 
-## Conversion from ShEx to rdfconfig YAML files
+Preliminary analysis seem to indicate that the conversion is possible but with some limitations which can be addressed if the use-cases are well defined and sufficent examples are available for rapid prototyping.
 
-Another possibility to explore is to generate rdfconfig config files who follow [this specification](https://github.com/dbcls/rdf-config/blob/master/doc/spec.md).
+## Conversion from ShEx to RDF-config YAML files
+
+Another possibility is to explore the generattion of RDF-config YAML files that follow [this specification](https://github.com/dbcls/rdf-config/blob/master/doc/spec.md).
+
+
 
 ## Use case about integrating RDF data and clinical records
 <!-- TODO: Review by Claude Nanjo -->
 
+## Use case about drug repurposing 
+<!-- TODO: Review by Núria -->
 
 
 ## Acknowledgements
