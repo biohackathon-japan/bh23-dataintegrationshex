@@ -112,6 +112,9 @@ authors_short: Jose E. Labra \emph{et al.}
 
 # Background
 
+[![hackmd-github-sync-badge](https://hackmd.io/jdpyyAXkSEK1RgT5QEx45g/badge)](https://hackmd.io/jdpyyAXkSEK1RgT5QEx45g)
+
+
 In this report, we describe the activities that we have been carrying on during the Biohackathon 2023, held in Shodoshima, Japan. The main goal of the project has been to identify approaches and issues that can be used to integrate large RDF datasets creating  subsets described by Shape Expressions.
 
 
