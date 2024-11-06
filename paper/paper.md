@@ -50,6 +50,9 @@ authors:
   - name: Alberto Labarga
     orcid: 0000-0001-6781-893X
     affiliation: 11
+  - name: Jose Alberto Benítez Andrades
+    orcid: 0000-0002-4450-349X
+    affiliation: 1
   - name: Robert Hoehndorf
     orcid: 0000-0001-8149-5890
     affiliation: 13
